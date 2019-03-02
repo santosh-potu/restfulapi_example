@@ -3,15 +3,19 @@
 use Illuminate\Http\Request;
 
 
-Route::get('articles', 'ArticleController@index');
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('articles', 'ArticleController@index');
+    Route::get('articles/{article}', 'ArticleController@show');
+    Route::post('articles', 'ArticleController@store');
+    Route::put('articles/{article}', 'ArticleController@update');
+    Route::delete('articles/{article}', 'ArticleController@delete');
+});
 
-Route::get('article/{article}','ArticleController@show');
+Route::post('register', 'Auth\RegisterController@register');
 
-Route::post('articles', 'ArticleController@store');
+Route::post('login', 'Auth\LoginController@login');
 
-Route::put('articles/{article}', 'ArticleController@update');
-
-Route::delete('articles/{article}', 'ArticleController@delete');
+Route::post('logout', 'Auth\LoginController@logout');
 /*
 |--------------------------------------------------------------------------
 | API Routes
